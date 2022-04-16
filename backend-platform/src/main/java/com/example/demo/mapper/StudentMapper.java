@@ -12,5 +12,5 @@ public interface StudentMapper extends BaseMapper<Student> {
     List<String> findAllId();
 
     @Update("update student set gpa = round(#{gpa},2) where id = #{id}")
-    Integer updateById(String id, Double gpa);
+    Integer updateGpaById(String id, Double gpa);
 }

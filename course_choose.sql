@@ -11,7 +11,7 @@
  Target Server Version : 80027
  File Encoding         : 65001
 
- Date: 13/04/2022 18:30:13
+ Date: 16/04/2022 13:36:50
 */
 
 SET NAMES utf8mb4;
@@ -177,7 +177,7 @@ CREATE TABLE `grade`  (
   `total_grade` int NULL DEFAULT NULL,
   `time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 82 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 124 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of grade
@@ -209,8 +209,8 @@ CREATE TABLE `student`  (
 -- ----------------------------
 -- Records of student
 -- ----------------------------
-INSERT INTO `student` VALUES ('19122169', '19122169', '卜晟原', '男', 1, 0.42);
-INSERT INTO `student` VALUES ('19122170', '19122170', '绵羊料理', '女', 1, 0);
+INSERT INTO `student` VALUES ('19122169', '19122169', '卜晟原', '男', 1, 1.22);
+INSERT INTO `student` VALUES ('19122170', '19122170', '绵羊料理', '女', 1, 0.44);
 INSERT INTO `student` VALUES ('19122171', '19122171', '小潮院长', '男', 4, 0);
 INSERT INTO `student` VALUES ('19122172', '19122172', '宝剑嫂', '女', 3, 0);
 INSERT INTO `student` VALUES ('19122173', '19122173', '力元君', '男', 3, 0);
@@ -321,18 +321,73 @@ INSERT INTO `teacher` VALUES ('159', '159', '晓观队长', '男', 2);
 INSERT INTO `teacher` VALUES ('160', '160', '哔哩哔哩大会员', '女', 5);
 
 -- ----------------------------
--- Table structure for user
+-- Procedure structure for getDepInfo
 -- ----------------------------
-DROP TABLE IF EXISTS `user`;
-CREATE TABLE `user`  (
-  `id` int NOT NULL AUTO_INCREMENT COMMENT 'ID',
-  `username` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '用户名',
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '密码',
-  `nick_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '昵称',
-  `age` int NULL DEFAULT NULL COMMENT '年龄',
-  `sex` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '性别',
-  `address` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL COMMENT '地址',
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 36 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci COMMENT = '用户信息表' ROW_FORMAT = Dynamic;
+DROP PROCEDURE IF EXISTS `getDepInfo`;
+delimiter ;;
+CREATE PROCEDURE `getDepInfo`(in dep int, out depStudentNum integer, out depTeacherNum integer, out depCourseNum integer)
+begin
+	select count(*) into depStudentNum from student where department = dep;
+	select count(*) into depTeacherNum from teacher where department = dep;
+	select count(*) into depCourseNum from course where department = dep;
+end
+;;
+delimiter ;
+
+-- ----------------------------
+-- Triggers structure for table classes
+-- ----------------------------
+DROP TRIGGER IF EXISTS `after_delete_classes`;
+delimiter ;;
+CREATE TRIGGER `after_delete_classes` AFTER DELETE ON `classes` FOR EACH ROW begin
+	delete from grade where term = old.term and time = old.time and course_id = old.course_id and teacher_id = old.teacher_id;  
+end
+;;
+delimiter ;
+
+-- ----------------------------
+-- Triggers structure for table course
+-- ----------------------------
+DROP TRIGGER IF EXISTS `after_delete_course`;
+delimiter ;;
+CREATE TRIGGER `after_delete_course` AFTER DELETE ON `course` FOR EACH ROW begin
+	delete from grade where course_id = old.id;
+	delete from classes where course_id = old.id;
+end
+;;
+delimiter ;
+
+-- ----------------------------
+-- Triggers structure for table department
+-- ----------------------------
+DROP TRIGGER IF EXISTS `after_delete_department`;
+delimiter ;;
+CREATE TRIGGER `after_delete_department` AFTER DELETE ON `department` FOR EACH ROW begin
+	delete from grade 
+	where student_id in (select id from student where department = old.department) 
+		or teacher_id in (select id from teacher where department = old.department)
+		or course_id in (select id from course where department = old.department);
+
+	delete from classes
+		where teacher_id in (select id from teacher where department = old.department)
+		or course_id in (select id from course where department = old.department);
+
+	delete from course where department = old.department;
+	delete from teacher where department = old.department;
+	delete from student where department = old.department;
+end
+;;
+delimiter ;
+
+-- ----------------------------
+-- Triggers structure for table student
+-- ----------------------------
+DROP TRIGGER IF EXISTS `after_delete_student`;
+delimiter ;;
+CREATE TRIGGER `after_delete_student` AFTER DELETE ON `student` FOR EACH ROW begin
+	delete from grade where student_id = old.id;
+end
+;;
+delimiter ;
 
 SET FOREIGN_KEY_CHECKS = 1;

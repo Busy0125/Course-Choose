@@ -106,7 +106,7 @@ public class StudentController {
                 gpa /= totalCredit;
             }
             // 小数点位数保留在sql中完成
-            studentMapper.updateById(IdSet.get(i), gpa);
+            studentMapper.updateGpaById(IdSet.get(i), gpa);
         }
         return Result.success();
     }

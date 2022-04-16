@@ -1,33 +1,31 @@
 <template>
-  <div>
-    <div style="padding: 10px;">
+  <div style="padding: 10px;">
 
-      <div style="margin: 10px 0;">
-        <el-input v-model="search" placeholder="请输入关键字" style="width: 30%;" clearable/>
-        <el-button type="primary" style="margin-left: 5px;" @click="load">查询</el-button>
-      </div>
-
-      <el-table :data="tableData" border stripe style="width: 100%;">
-        <el-table-column prop="term" label="学期" sortable/>
-        <el-table-column prop="courseId" label="课号" sortable/>
-        <el-table-column prop="courseName" label="课名"/>
-        <el-table-column prop="credit" label="学分"/>
-        <el-table-column prop="teacherId" label="教师号" sortable/>
-        <el-table-column prop="teacherName" label="教师名"/>
-        <el-table-column prop="time" label="时间"/>
-
-        <el-table-column fixed="right" label="操作" width="120">
-          <template #default="scope">
-            <el-popconfirm title="确定删选此课程吗？" @confirm="quit(scope.row)">
-              <template #reference>
-                <el-button type="danger" plain size="small">退课</el-button>
-              </template>
-            </el-popconfirm>
-          </template>
-        </el-table-column>
-      </el-table>
-      <div style="margin: 10px 10px 10px; font-size: 10px; color: rgb(96, 98, 102);">共 {{ total }} 条</div>
+    <div style="margin: 10px 0;">
+      <el-input v-model="search" placeholder="请输入关键字" style="width: 30%;" clearable/>
+      <el-button type="primary" style="margin-left: 5px;" @click="load">查询</el-button>
     </div>
+
+    <el-table :data="tableData" border stripe style="width: 100%;">
+      <el-table-column prop="term" label="学期" sortable/>
+      <el-table-column prop="courseId" label="课号" sortable/>
+      <el-table-column prop="courseName" label="课名"/>
+      <el-table-column prop="credit" label="学分"/>
+      <el-table-column prop="teacherId" label="教师号" sortable/>
+      <el-table-column prop="teacherName" label="教师名"/>
+      <el-table-column prop="time" label="时间"/>
+
+      <el-table-column fixed="right" label="操作" width="120">
+        <template #default="scope">
+          <el-popconfirm title="确定删选此课程吗？" @confirm="quit(scope.row)">
+            <template #reference>
+              <el-button type="danger" plain size="small">退课</el-button>
+            </template>
+          </el-popconfirm>
+        </template>
+      </el-table-column>
+    </el-table>
+    <div style="margin: 10px 10px 10px; font-size: 10px; color: rgb(96, 98, 102);">共 {{ total }} 条</div>
   </div>
 </template>
 

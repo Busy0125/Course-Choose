@@ -12,6 +12,7 @@
         <el-menu-item index="/manageStudent">学生管理</el-menu-item>
         <el-menu-item index="/manageTeacher">教师管理</el-menu-item>
         <el-menu-item index="/manageClasses">班级管理</el-menu-item>
+        <el-menu-item index="/manageDepartment">院系管理</el-menu-item>
       </el-sub-menu>
     </el-menu>
   </div>
