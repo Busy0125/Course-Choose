@@ -1,8 +1,8 @@
 <template>
   <!--头部，分为三部分-->
-  <div style="display: flex; height: 50px; border-bottom: 1px solid deepskyblue;">
+  <div style="display: flex; height: 50px; border-bottom: 1px solid #409EFF;">
     <!--1、名称-->
-    <div style="width: 200px; color: dodgerblue; margin: auto; padding-left: 30px; font-weight: bold;">选课管理系统</div>
+    <div style="width: 200px; color: #409EFF; margin: auto; padding-left: 30px; font-weight: bold;">选课管理系统</div>
 
     <!--2、中间栏，无内容-->
     <div style="flex: 1;"></div>

@@ -25,6 +25,9 @@ public class StudentController {
 
     @PostMapping
     public Result<?> save(@RequestBody Student student) {
+        if (studentMapper.isKeyRepeat(student.getId()).intValue() != 0) {
+            return Result.error("-1", "学号已存在");
+        }
         if (student.getPassword() == null) {
             student.setPassword(student.getId());
         }
@@ -50,6 +53,10 @@ public class StudentController {
         // student.setPassword(fromDb.getPassword());
         // student.setGpa(fromDb.getGpa());
 
+        // 前端表单中学号只读，理论上不会出现主键重复
+//        if (studentMapper.isKeyRepeat(student.getId()).intValue() != 0) {
+//            return Result.error("-1", "学号已存在");
+//        }
         studentMapper.updateById(student);
         return Result.success();
     }

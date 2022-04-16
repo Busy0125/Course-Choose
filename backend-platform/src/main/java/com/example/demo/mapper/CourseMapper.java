@@ -14,4 +14,7 @@ public interface CourseMapper extends BaseMapper<Course> {
 
     @Select("select id,credit from course")
     List<CourseWithCredit> findCredit();
+
+    @Select("select count(*) from course where id = #{id}")
+    Integer isKeyRepeat(String id);
 }

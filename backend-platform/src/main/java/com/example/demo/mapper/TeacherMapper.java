@@ -10,4 +10,7 @@ import java.util.List;
 public interface TeacherMapper extends BaseMapper<Teacher> {
     @Select("select id,name from teacher")
     List<CourseWithName> findAllTeacherWithName();
+
+    @Select("select count(*) from teacher where id = #{id}")
+    Integer isKeyRepeat(String id);
 }

@@ -172,14 +172,14 @@ export default {
             type: "success",
             message: "新增成功"
           })
+          this.dialogVisible = false;
+          this.load();
         } else {
           this.$message({
-            type: "error",
+            type: "warning",
             message: res.msg
           })
         }
-        this.dialogVisible = false;
-        this.load();
       })
     },
     update() {
@@ -190,14 +190,14 @@ export default {
             type: "success",
             message: "更新成功"
           })
+          this.dialogVisible2 = false;
+          this.load();
         } else {
           this.$message({
             type: "error",
             message: res.msg
           })
         }
-        this.dialogVisible2 = false;
-        this.load();
       })
     },
 
@@ -224,13 +224,13 @@ export default {
             type: "success",
             message: "删除成功"
           })
+          this.load();
         } else {
           this.$message({
             type: "error",
             message: res.msg
           })
         }
-        this.load()
       })
     },
     handleSizeChange(pageSize) {

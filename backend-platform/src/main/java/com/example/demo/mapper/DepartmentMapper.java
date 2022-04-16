@@ -12,6 +12,9 @@ public interface DepartmentMapper extends BaseMapper<Department> {
     @Select("select * from department where department = #{dep}")
     List<Department> findDepartmentNameById(Integer dep);
 
+    @Select("select count(*) from department where department = #{department}")
+    Integer isKeyRepeat(Integer id);
+
     // 添加部门
     Integer insertDepartment(Integer department, String departmentName);
 

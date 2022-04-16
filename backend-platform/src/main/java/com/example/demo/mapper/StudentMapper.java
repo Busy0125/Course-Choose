@@ -13,4 +13,7 @@ public interface StudentMapper extends BaseMapper<Student> {
 
     @Update("update student set gpa = round(#{gpa},2) where id = #{id}")
     Integer updateGpaById(String id, Double gpa);
+
+    @Select("select count(*) from student where id = #{id}")
+    Integer isKeyRepeat(String id);
 }

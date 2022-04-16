@@ -3,6 +3,8 @@
     <el-button type="primary" plain :icon="ArrowLeft"
                @click="back">返回课程列表
     </el-button>
+    <el-button type="primary" plain>成绩分布
+    </el-button>
     <div style="text-align: center;">
       <h1 style="color: #409EFF;">学生名单</h1>
       <span>

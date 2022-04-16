@@ -27,6 +27,9 @@ public class CourseController {
 
     @PostMapping
     public Result<?> save(@RequestBody Course course) {
+        if (courseMapper.isKeyRepeat(course.getId()).intValue() != 0) {
+            return Result.error("-1", "课程号已存在");
+        }
         courseMapper.insert(course);
         return Result.success();
     }

@@ -19,6 +19,9 @@ public class TeacherController {
 
     @PostMapping
     public Result<?> save(@RequestBody Teacher teacher) {
+        if (teacherMapper.isKeyRepeat(teacher.getId()).intValue() != 0) {
+            return Result.error("-1", "教师号已存在");
+        }
         if (teacher.getPassword() == null) {
             teacher.setPassword(teacher.getId());
         }

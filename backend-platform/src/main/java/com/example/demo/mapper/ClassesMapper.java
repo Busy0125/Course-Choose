@@ -74,4 +74,7 @@ public interface ClassesMapper extends BaseMapper<Classes> {
     @Select("select count(*) from classes where term = #{term} and time = #{time} " +
             "and teacher_id = #{teacherId}")
     Integer findIsConflicting(String term, String time, String teacherId);
+
+    @Select("select count(*) from classes where id = #{id}")
+    Integer isKeyRepeat(String id);
 }

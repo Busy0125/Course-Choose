@@ -22,6 +22,8 @@
       </el-table-column>
     </el-table>
 
+    <div style="margin: 10px 10px 10px; font-size: 10px; color: rgb(96, 98, 102);">共 {{ total }} 条</div>
+
     <el-dialog v-model="dialogVisible" title="新增学院" width="30%">
       <el-form :model="form" label-width="120px">
         <el-form-item label="院系号">
@@ -69,7 +71,8 @@ export default {
       dialogVisible: false,
       dialogVisible2: false,
       form: {},
-      form2: {}
+      form2: {},
+      total: 0
     }
   },
   created() {
@@ -80,6 +83,7 @@ export default {
       request.get("/department/getInfo").then(res => {
         console.log(res);
         this.tableData = res.data;
+        this.total = this.tableData.length;
       })
     },
     add() {
@@ -97,13 +101,13 @@ export default {
             type: "success",
             message: "删除成功"
           })
+          this.load();
         } else {
           this.$message({
             type: "error",
             message: res.msg
           })
         }
-        this.load()
       })
     },
     save() {
@@ -114,14 +118,14 @@ export default {
             type: "success",
             message: "新增成功"
           })
+          this.dialogVisible = false;
+          this.load();
         } else {
           this.$message({
-            type: "error",
+            type: "warning",
             message: res.msg
           })
         }
-        this.dialogVisible = false;
-        this.load();
       })
     },
     update() {
@@ -132,14 +136,14 @@ export default {
             type: "success",
             message: "更新成功"
           })
+          this.dialogVisible2 = false;
+          this.load();
         } else {
           this.$message({
             type: "error",
             message: res.msg
           })
         }
-        this.dialogVisible2 = false;
-        this.load();
       })
     }
   }

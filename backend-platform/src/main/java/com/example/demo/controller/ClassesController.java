@@ -68,6 +68,9 @@ public class ClassesController {
 
     @PostMapping
     public Result<?> save(@RequestBody Classes classes) {
+        if (classesMapper.isKeyRepeat(classes.getId()).intValue() != 0) {
+            return Result.error("-1", "班级号已存在");
+        }
         // 判断时间是否冲突
         Integer res = classesMapper.findIsConflicting(classes.getTerm(), classes.getTime(), classes.getTeacherId());
         if(res.intValue() != 0)

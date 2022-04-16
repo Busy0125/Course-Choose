@@ -29,6 +29,9 @@ public class DepartmentController {
 
     @PostMapping
     public Result<?> save(@RequestBody Department department) {
+        if (departmentMapper.isKeyRepeat(department.getDepartment()).intValue() != 0) {
+            return Result.error("-1", "院系号已存在");
+        }
         return Result.success(departmentMapper.insertDepartment(department.getDepartment(), department.getDepartmentName()));
     }
 
