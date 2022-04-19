@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.mapper.DepartmentMapper">
+    <insert id="insertDepartment">
+        insert into department (department, department_name)
+        values (#{department}, #{departmentName});
+    </insert>
+
+    <update id="updateDepartment">
+        update department set department_name = #{departmentName} where department = #{department};
+    </update>
+
+    <delete id="deleteDepartment">
+        delete from department where department = #{department};
+    </delete>
+
+    <select id="getDepartmentInfo" statementType="CALLABLE">
+        {
+            call getDepInfo(
+                #{department, mode=IN, jdbcType=INTEGER},
+                #{depStudentNum, mode=OUT, jdbcType=INTEGER},
+                #{depTeacherNum, mode=OUT, jdbcType=INTEGER},
+                #{depCourseNum, mode=OUT, jdbcType=INTEGER}
+            )
+        }
+    </select>
+</mapper>

@@ -103,7 +103,8 @@ export default {
       credit: [],
       totalCredit: 0
     }
-  }, created() {
+  },
+  created() {
     this.getCredit();
     this.load();
     this.getAllTerm();
@@ -195,7 +196,8 @@ td {
   border: 1px solid #ebeef5;
   padding: 10px;
 }
-tr:hover{
+
+tr:hover {
   background-color: #fafafa;
 }
 </style>

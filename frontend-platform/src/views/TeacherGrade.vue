@@ -3,7 +3,7 @@
     <el-button type="primary" plain :icon="ArrowLeft"
                @click="back">返回课程列表
     </el-button>
-    <el-button type="primary" plain>成绩分布
+    <el-button type="primary" plain @click="displayGrade">查看成绩分布
     </el-button>
     <div style="text-align: center;">
       <h1 style="color: #409EFF;">学生名单</h1>
@@ -83,12 +83,17 @@
       </template>
     </el-dialog>
 
+    <el-dialog v-model="dialogVisible3">
+      <div style="width: 500px; height: 500px; margin: 0 auto;" id="distribution"></div>
+    </el-dialog>
+
   </div>
 </template>
 
 <script>
 import {ArrowLeft} from '@element-plus/icons-vue'
 import request from "@/utils/request";
+import * as echarts from "echarts";
 
 export default {
   name: "TeacherGrade",
@@ -116,7 +121,11 @@ export default {
       row: {},
 
       // 当前总成绩是否需要更新
-      needToUpdate: false
+      needToUpdate: false,
+
+      // 成绩展示
+      dialogVisible3: false,
+      gradeData: []
     }
   },
   created() {
@@ -212,6 +221,72 @@ export default {
             message: res.msg
           })
         }
+      })
+    },
+    displayGrade() {
+      let currentGrade = [
+        {value: 0, name: '90分-100分'},
+        {value: 0, name: '80分-89分'},
+        {value: 0, name: '70分-79分'},
+        {value: 0, name: '60-69分'},
+        {value: 0, name: '60分以下'}
+      ];
+      for (let i = 0; i < this.tableData.length; i++) {
+        let t = this.tableData[i].totalGrade
+        if (t >= 90 && t <= 100) {
+          currentGrade[0]["value"]++;
+        } else if (t >= 80 && t <= 89) {
+          currentGrade[1]["value"]++;
+        } else if (t >= 70 && t <= 79) {
+          currentGrade[2]["value"]++;
+        } else if (t >= 60 && t <= 69) {
+          currentGrade[3]["value"]++;
+        } else {
+          currentGrade[4]["value"]++;
+        }
+      }
+      this.gradeData = currentGrade;
+      this.dialogVisible3 = true;
+      this.$nextTick(() => {
+        let myChart = echarts.init(document.getElementById("distribution"));
+        let option = {
+          tooltip: {
+            trigger: 'item'
+          },
+          legend: {
+            top: '5%',
+            left: 'center'
+          },
+          series: [
+            {
+              name: '该分数段人数',
+              type: 'pie',
+              radius: ['40%', '70%'],
+              avoidLabelOverlap: false,
+              itemStyle: {
+                borderRadius: 10,
+                borderColor: '#fff',
+                borderWidth: 2
+              },
+              label: {
+                show: false,
+                position: 'center'
+              },
+              emphasis: {
+                label: {
+                  show: true,
+                  fontSize: '40',
+                  fontWeight: 'bold'
+                }
+              },
+              labelLine: {
+                show: false
+              },
+              data: this.gradeData
+            }
+          ]
+        };
+        myChart.setOption(option);
       })
     }
   }
