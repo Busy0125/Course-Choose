@@ -114,7 +114,7 @@ export default {
               })
             } else {
               this.$message({
-                type: "erroe",
+                type: "error",
                 message: res.msg
               })
             }

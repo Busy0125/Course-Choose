@@ -15,7 +15,10 @@
         学分：<ins>&nbsp;{{ credit }}&nbsp;</ins>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         教师号：<ins>&nbsp;{{ teacherId }}&nbsp;</ins>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         教师名：<ins>&nbsp;{{ teacherName }}&nbsp;</ins>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        时间：<ins>&nbsp;{{ time }}&nbsp;</ins>
+        时间：<ins>&nbsp;{{ time }}&nbsp;</ins>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <br><br>
+        选课人数上限：<ins>&nbsp;{{ limitNum }}&nbsp;</ins>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        当前选课人数：<ins>&nbsp;{{ currentNum }}&nbsp;</ins>
       </span>
       <hr>
 
@@ -37,7 +40,7 @@
 
     <el-row>
       <el-col :span="16">
-        <div style="margin: 10px 10px 10px; font-size: 10px; color: rgb(96, 98, 102);">选课人数：{{ total }}</div>
+        <div style="margin: 10px 10px 10px; font-size: 10px; color: rgb(96, 98, 102);">选课人数：{{ currentNum }}</div>
       </el-col>
       <el-col :span="4">
         <div style="margin-top: 15px; margin-left: 20px; color: red;" v-if="needToUpdate">请更新综合成绩！</div>
@@ -83,8 +86,17 @@
       </template>
     </el-dialog>
 
-    <el-dialog v-model="dialogVisible3">
-      <div style="width: 500px; height: 500px; margin: 0 auto;" id="distribution"></div>
+    <el-dialog v-model="dialogVisible3" width="80%" title="成绩分布">
+      <el-row>
+        <el-col :span="8" style="height: 500px;" id="usualDistribution"></el-col>
+        <el-col :span="8" style="height: 500px;" id="finalDistribution"></el-col>
+        <el-col :span="8" style="height: 500px;" id="totalDistribution"></el-col>
+      </el-row>
+      <el-row>
+        <el-col :span="8" style="height: 30px; font-weight:bold; text-align: center;">平均分：{{ usualAverage }}</el-col>
+        <el-col :span="8" style="height: 30px; font-weight:bold; text-align: center;">平均分：{{ finalAverage }}</el-col>
+        <el-col :span="8" style="height: 30px; font-weight:bold; text-align: center;">平均分：{{ totalAverage }}</el-col>
+      </el-row>
     </el-dialog>
 
   </div>
@@ -107,9 +119,10 @@ export default {
       term: sessionStorage.getItem("currentTerm"),
       time: sessionStorage.getItem("currentTime"),
       credit: sessionStorage.getItem("currentCredit"),
+      limitNum: sessionStorage.getItem("currentLimitNum"),
+      currentNum: sessionStorage.getItem("currentCurrentNum"),
 
       tableData: [],
-      total: 0,
 
       dialogVisible: false,
       form: {},
@@ -125,7 +138,9 @@ export default {
 
       // 成绩展示
       dialogVisible3: false,
-      gradeData: []
+      usualAverage: 0,
+      finalAverage: 0,
+      totalAverage: 0
     }
   },
   created() {
@@ -147,7 +162,8 @@ export default {
       })
     },
     handleGrade(row) {
-      this.form = {};
+      this.form.usualGrade = row.usualGrade;
+      this.form.finalGrade = row.finalGrade;
       this.title = row.id + "-" + row.name + "的成绩信息";
 
       this.row.studentId = row.id;
@@ -196,6 +212,14 @@ export default {
       }
     },
     update() {
+      if (eval(this.form2.usualGradeProportion + "+" + this.form2.finalGradeProportion) !== 100) {
+        this.$message({
+          type: "warning",
+          message: "数据不合法，请重新输入"
+        })
+        this.form2 = {};
+        return;
+      }
       request.get("/grade/update", {
         params: {
           term: this.term,
@@ -224,32 +248,35 @@ export default {
       })
     },
     displayGrade() {
-      let currentGrade = [
+      if (this.tableData.length === 0) {
+        this.$message({
+          type: "warning",
+          message: "暂无学生选课"
+        })
+        return;
+      }
+      let usualDistributionData = [
         {value: 0, name: '90分-100分'},
         {value: 0, name: '80分-89分'},
         {value: 0, name: '70分-79分'},
         {value: 0, name: '60-69分'},
         {value: 0, name: '60分以下'}
       ];
-      for (let i = 0; i < this.tableData.length; i++) {
-        let t = this.tableData[i].totalGrade
-        if (t >= 90 && t <= 100) {
-          currentGrade[0]["value"]++;
-        } else if (t >= 80 && t <= 89) {
-          currentGrade[1]["value"]++;
-        } else if (t >= 70 && t <= 79) {
-          currentGrade[2]["value"]++;
-        } else if (t >= 60 && t <= 69) {
-          currentGrade[3]["value"]++;
-        } else {
-          currentGrade[4]["value"]++;
-        }
-      }
-      this.gradeData = currentGrade;
+      let finalDistributionData = JSON.parse(JSON.stringify(usualDistributionData));
+      let totalDistributionData = JSON.parse(JSON.stringify(usualDistributionData));
+      this.initDistributionData(usualDistributionData, 1);
+      this.initDistributionData(finalDistributionData, 2);
+      this.initDistributionData(totalDistributionData, 3);
       this.dialogVisible3 = true;
       this.$nextTick(() => {
-        let myChart = echarts.init(document.getElementById("distribution"));
+        let myChart = echarts.init(document.getElementById("usualDistribution"));
+        let myChart2 = echarts.init(document.getElementById("finalDistribution"));
+        let myChart3 = echarts.init(document.getElementById("totalDistribution"));
         let option = {
+          title: {
+            text: '平时成绩',
+            left: 'center'
+          },
           tooltip: {
             trigger: 'item'
           },
@@ -282,12 +309,59 @@ export default {
               labelLine: {
                 show: false
               },
-              data: this.gradeData
+              data: usualDistributionData
             }
           ]
         };
         myChart.setOption(option);
+
+        let option2 = JSON.parse(JSON.stringify(option));
+        option2.title.text = "考试成绩"
+        option2.series[0].data = finalDistributionData;
+        myChart2.setOption(option2);
+
+        let option3 = JSON.parse(JSON.stringify(option));
+        option3.title.text = "综合成绩"
+        option3.series[0].data = totalDistributionData;
+        myChart3.setOption(option3);
+
+        // 算平均分
+        let usualSum = 0, finalSum = 0, totalSum = 0;
+        for (let i = 0; i < this.tableData.length; i++) {
+          usualSum += this.tableData[i].usualGrade;
+          finalSum += this.tableData[i].finalGrade;
+          totalSum += this.tableData[i].totalGrade;
+        }
+        console.log(usualSum)
+        console.log(finalSum)
+        console.log(totalSum)
+        this.usualAverage = (usualSum / this.tableData.length).toFixed(2);
+        this.finalAverage = (finalSum / this.tableData.length).toFixed(2);
+        this.totalAverage = (totalSum / this.tableData.length).toFixed(2);
       })
+    },
+    initDistributionData(distributionData, which) {
+      let t;
+      for (let i = 0; i < this.tableData.length; i++) {
+        if (which === 1) {
+          t = this.tableData[i].usualGrade
+        } else if (which === 2) {
+          t = this.tableData[i].finalGrade
+        } else {
+          t = this.tableData[i].totalGrade
+        }
+        if (t >= 90 && t <= 100) {
+          distributionData[0]["value"]++;
+        } else if (t >= 80 && t <= 89) {
+          distributionData[1]["value"]++;
+        } else if (t >= 70 && t <= 79) {
+          distributionData[2]["value"]++;
+        } else if (t >= 60 && t <= 69) {
+          distributionData[3]["value"]++;
+        } else {
+          distributionData[4]["value"]++;
+        }
+      }
     }
   }
 }

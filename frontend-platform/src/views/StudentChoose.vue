@@ -14,6 +14,8 @@
       <el-table-column prop="teacherId" label="教师号" sortable/>
       <el-table-column prop="teacherName" label="教师名"/>
       <el-table-column prop="time" label="时间"/>
+      <el-table-column prop="currentNum" label=" 当前人数"/>
+      <el-table-column prop="limitNum" label="人数上限"/>
 
       <el-table-column fixed="right" label="操作" width="120">
         <template #default="scope">
@@ -80,13 +82,7 @@ export default {
       // 去grade表中进行查询
       request.post("/grade/isChosen", chooseObj).then(res => {
         console.log(res);
-        if (res.code === '-1') { // 不能选课
-          this.$message({
-            type: "warning",
-            message: res.msg
-          })
-          return;
-        } else if (res.code === '-2') {
+        if (res.code !== '0') { // 不能选课
           this.$message({
             type: "warning",
             message: res.msg
@@ -110,6 +106,7 @@ export default {
                 type: "success",
                 message: "选课成功"
               })
+              this.load();
             } else {
               this.$message({
                 type: "error",

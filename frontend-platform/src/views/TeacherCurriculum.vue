@@ -14,6 +14,8 @@
       <el-table-column prop="courseName" label="课名" sortable/>
       <el-table-column prop="credit" label="学分"/>
       <el-table-column prop="time" label="时间"/>
+      <el-table-column prop="currentNum" label=" 当前人数"/>
+      <el-table-column prop="limitNum" label="人数上限"/>
 
       <el-table-column fixed="right" label="操作" width="120">
         <template #default="scope">
@@ -69,6 +71,8 @@ export default {
       sessionStorage.setItem("currentTerm", row.term);
       sessionStorage.setItem("currentTime", row.time);
       sessionStorage.setItem("currentCredit", row.credit);
+      sessionStorage.setItem("currentLimitNum", row.limitNum);
+      sessionStorage.setItem("currentCurrentNum",row.currentNum);
       // 跳转路由
       this.$router.push("/teacherGrade");
     },

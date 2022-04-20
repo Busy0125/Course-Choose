@@ -26,6 +26,8 @@
       <el-table-column prop="teacherId" label="教师号"/>
       <el-table-column prop="teacherName" label="教师名"/>
       <el-table-column prop="time" label="时间"/>
+      <el-table-column prop="currentNum" label=" 当前人数"/>
+      <el-table-column prop="limitNum" label="人数上限"/>
 
       <el-table-column fixed="right" label="操作" width="120">
         <template #default="scope">
@@ -103,6 +105,9 @@
             <el-radio label="11-12">11-12</el-radio>
           </el-radio-group>
         </el-form-item>
+        <el-form-item label="人数上限">
+          <el-input v-model="form.limitNum" style="width: 80%;"/>
+        </el-form-item>
       </el-form>
       <template #footer>
       <span>
@@ -161,6 +166,12 @@
             <el-radio label="9-10">9-10</el-radio>
             <el-radio label="11-12">11-12</el-radio>
           </el-radio-group>
+        </el-form-item>
+        <el-form-item label="当前人数">
+          <el-input v-model="form2.currentNum" style="width: 80%;" readonly/>
+        </el-form-item>
+        <el-form-item label="人数上限">
+          <el-input v-model="form2.limitNum" style="width: 80%;" readonly/>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -228,7 +239,9 @@ export default {
         "courseName": this.form.courseName,
         "teacherId": this.form.teacherId,
         "teacherName": this.form.teacherName,
-        "time": this.form.week + this.form.session
+        "time": this.form.week + this.form.session,
+        "limitNum": this.form.limitNum,
+        "currentNum": 0
       }
       request.post("/classes", formObj).then(res => {
         console.log(res);
@@ -255,7 +268,9 @@ export default {
         "courseName": this.form2.courseName,
         "teacherId": this.form2.teacherId,
         "teacherName": this.form2.teacherName,
-        "time": this.form2.week + this.form2.session
+        "time": this.form2.week + this.form2.session,
+        "limitNum": this.form2.limitNum,
+        "currentNum": this.form2.currentNum
       }
       request.put("/classes", formObj).then(res => {
         console.log(res);
@@ -304,7 +319,9 @@ export default {
         "teacherId": row.teacherId,
         "teacherName": row.teacherName,
         "week": row.time.substr(0, 1),
-        "session": row.time.substr(1, 3)
+        "session": row.time.substr(1, 3),
+        "currentNum": row.currentNum,
+        "limitNum": row.limitNum,
       };
       this.form2 = formObj;
       this.dialogVisible2 = true;

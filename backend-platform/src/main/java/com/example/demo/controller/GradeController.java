@@ -4,6 +4,7 @@ import com.example.demo.common.Result;
 import com.example.demo.entity.Grade;
 import com.example.demo.entity.GradePlus;
 import com.example.demo.entity.GradeWithStudentName;
+import com.example.demo.mapper.ClassesMapper;
 import com.example.demo.mapper.GradeMapper;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,8 +19,12 @@ public class GradeController {
     @Resource
     GradeMapper gradeMapper;
 
+    @Resource
+    ClassesMapper classesMapper;
+
     @PostMapping
     public Result<?> save(@RequestBody Grade grade) {
+        classesMapper.newStudent(grade.getTerm(), grade.getCourseId(), grade.getTeacherId(), grade.getTime());
         gradeMapper.insert(grade);
         return Result.success();
     }
@@ -27,13 +32,17 @@ public class GradeController {
     @PostMapping("/isChosen")
     public Result<?> isChosen(@RequestBody Grade grade) {
         // 查询返回一个整数，若非0，说明不满足选课条件
-        Integer res = gradeMapper.findIsChosen(grade.getStudentId(), grade.getTerm(), grade.getCourseId(), grade.getTeacherId(), grade.getTime());
+        Integer res = classesMapper.isFull(grade.getTerm(), grade.getCourseId(), grade.getTeacherId(), grade.getTime());
         if (res.intValue() != 0) {
-            return Result.error("-1", "选课失败，你已选修过该课程");
+            return Result.error("-1", "选课失败，选课人数已满");
+        }
+        res = gradeMapper.findIsChosen(grade.getStudentId(), grade.getTerm(), grade.getCourseId(), grade.getTeacherId(), grade.getTime());
+        if (res.intValue() != 0) {
+            return Result.error("-2", "选课失败，你已选修过该课程");
         }
         res = gradeMapper.findIsConflicting(grade.getStudentId(), grade.getTerm(), grade.getCourseId(), grade.getTeacherId(), grade.getTime());
         if (res.intValue() != 0) {
-            return Result.error("-2", "选课失败，你的时间冲突");
+            return Result.error("-3", "选课失败，你的时间冲突");
         }
         return Result.success();
     }
@@ -60,6 +69,7 @@ public class GradeController {
         if (res == null) {
             return Result.error("-1", "已进行考核，禁止退课！");
         }
+        classesMapper.deleteOneStudent(term, courseId, teacherId, time);
         return Result.success(res);
     }
 

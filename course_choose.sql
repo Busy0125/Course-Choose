@@ -11,7 +11,7 @@
  Target Server Version : 80027
  File Encoding         : 65001
 
- Date: 16/04/2022 13:36:50
+ Date: 20/04/2022 14:26:36
 */
 
 SET NAMES utf8mb4;
@@ -29,32 +29,35 @@ CREATE TABLE `classes`  (
   `teacher_id` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   `teacher_name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   `time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
+  `limit_num` int NULL DEFAULT NULL,
+  `current_num` int NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE = InnoDB CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of classes
 -- ----------------------------
-INSERT INTO `classes` VALUES ('2001', '19年秋', '08305138', '面向对象程序设计', '101', '吴基长', '一1-2');
-INSERT INTO `classes` VALUES ('2002', '19年秋', '08305138', '面向对象程序设计', '101', '吴基长', '一7-8');
-INSERT INTO `classes` VALUES ('2003', '19年秋', '08305139', '数字逻辑', '122', '哔哩哔哩弹幕网', '二3-4');
-INSERT INTO `classes` VALUES ('2004', '19年秋', '08305139', '数字逻辑', '122', '哔哩哔哩弹幕网', '四3-4');
-INSERT INTO `classes` VALUES ('2005', '19年秋', '08305072', '数字逻辑实验', '126', '一只小仙若', '三9-10');
-INSERT INTO `classes` VALUES ('2006', '19年秋', '08305072', '数字逻辑实验', '126', '一只小仙若', '五9-10');
-INSERT INTO `classes` VALUES ('2007', '19年秋', '08305072', '数字逻辑实验', '122', '哔哩哔哩弹幕网', '三9-10');
-INSERT INTO `classes` VALUES ('2008', '19年秋', '08305072', '数字逻辑实验', '122', '哔哩哔哩弹幕网', '五9-10');
-INSERT INTO `classes` VALUES ('2009', '19年冬', '08305140', '离散数学', '130', '视角姬', '一1-2');
-INSERT INTO `classes` VALUES ('2010', '19年冬', '08305140', '离散数学', '130', '视角姬', '三1-2');
-INSERT INTO `classes` VALUES ('2011', '19年冬', '08305140', '离散数学', '101', '吴基长', '一1-2');
-INSERT INTO `classes` VALUES ('2012', '19年冬', '08305140', '离散数学', '101', '吴基长', '三1-2');
-INSERT INTO `classes` VALUES ('2013', '19年冬', '08305009', '数据结构', '151', '黑马程序员', '二7-8');
-INSERT INTO `classes` VALUES ('2014', '19年冬', '08305009', '数据结构', '151', '黑马程序员', '四7-8');
-INSERT INTO `classes` VALUES ('2015', '19年春', '08305073', '计算机组成原理', '105', '毕导THU', '一5-6');
-INSERT INTO `classes` VALUES ('2016', '19年春', '08305073', '计算机组成原理', '105', '毕导THU', '三5-6');
-INSERT INTO `classes` VALUES ('2017', '19年春', '08305073', '计算机组成原理', '126', '一只小仙若', '一5-6');
-INSERT INTO `classes` VALUES ('2018', '19年春', '08305073', '计算机组成原理', '126', '一只小仙若', '三5-6');
-INSERT INTO `classes` VALUES ('2019', '19年春', '08305075', '计算机组成原理实验', '106', '宋浩老师官方', '一1-2');
-INSERT INTO `classes` VALUES ('2022', '19年春', '08305075', '计算机组成原理实验', '106', '宋浩老师官方', '一3-4');
+INSERT INTO `classes` VALUES ('2001', '19年秋', '08305138', '面向对象程序设计', '101', '吴基长', '一1-2', 50, 2);
+INSERT INTO `classes` VALUES ('2002', '19年秋', '08305138', '面向对象程序设计', '101', '吴基长', '一7-8', 50, 0);
+INSERT INTO `classes` VALUES ('2003', '19年秋', '08305139', '数字逻辑', '122', '哔哩哔哩弹幕网', '二3-4', 50, 2);
+INSERT INTO `classes` VALUES ('2004', '19年秋', '08305139', '数字逻辑', '122', '哔哩哔哩弹幕网', '四3-4', 50, 0);
+INSERT INTO `classes` VALUES ('2005', '19年秋', '08305072', '数字逻辑实验', '126', '一只小仙若', '三9-10', 50, 0);
+INSERT INTO `classes` VALUES ('2006', '19年秋', '08305072', '数字逻辑实验', '126', '一只小仙若', '五9-10', 50, 2);
+INSERT INTO `classes` VALUES ('2007', '19年秋', '08305072', '数字逻辑实验', '122', '哔哩哔哩弹幕网', '三9-10', 50, 0);
+INSERT INTO `classes` VALUES ('2008', '19年秋', '08305072', '数字逻辑实验', '122', '哔哩哔哩弹幕网', '五9-10', 50, 0);
+INSERT INTO `classes` VALUES ('2009', '19年冬', '08305140', '离散数学', '130', '视角姬', '一1-2', 50, 0);
+INSERT INTO `classes` VALUES ('2010', '19年冬', '08305140', '离散数学', '130', '视角姬', '三1-2', 50, 1);
+INSERT INTO `classes` VALUES ('2011', '19年冬', '08305140', '离散数学', '101', '吴基长', '一1-2', 50, 0);
+INSERT INTO `classes` VALUES ('2012', '19年冬', '08305140', '离散数学', '101', '吴基长', '三1-2', 50, 0);
+INSERT INTO `classes` VALUES ('2013', '19年冬', '08305009', '数据结构', '151', '黑马程序员', '二7-8', 50, 1);
+INSERT INTO `classes` VALUES ('2014', '19年冬', '08305009', '数据结构', '151', '黑马程序员', '四7-8', 50, 0);
+INSERT INTO `classes` VALUES ('2015', '19年春', '08305073', '计算机组成原理', '105', '毕导THU', '一5-6', 50, 0);
+INSERT INTO `classes` VALUES ('2016', '19年春', '08305073', '计算机组成原理', '105', '毕导THU', '三5-6', 50, 1);
+INSERT INTO `classes` VALUES ('2017', '19年春', '08305073', '计算机组成原理', '126', '一只小仙若', '一5-6', 50, 0);
+INSERT INTO `classes` VALUES ('2018', '19年春', '08305073', '计算机组成原理', '126', '一只小仙若', '三5-6', 50, 0);
+INSERT INTO `classes` VALUES ('2019', '19年春', '08305075', '计算机组成原理实验', '106', '宋浩老师官方', '一1-2', 50, 0);
+INSERT INTO `classes` VALUES ('2020', '19年秋', '02075052', '文学概论', '102', '波喵喵喵', '一1-2', 5, 5);
+INSERT INTO `classes` VALUES ('2022', '19年春', '08305075', '计算机组成原理实验', '106', '宋浩老师官方', '一3-4', 50, 1);
 
 -- ----------------------------
 -- Table structure for course
@@ -177,7 +180,7 @@ CREATE TABLE `grade`  (
   `total_grade` int NULL DEFAULT NULL,
   `time` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 124 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 125 CHARACTER SET = utf8mb4 COLLATE = utf8mb4_unicode_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of grade
@@ -187,10 +190,16 @@ INSERT INTO `grade` VALUES (107, '19122169', '19年秋', '08305072', '126', 93, 
 INSERT INTO `grade` VALUES (109, '19122169', '19年冬', '08305009', '151', 0, 0, 0, '二7-8');
 INSERT INTO `grade` VALUES (110, '19122169', '19年春', '08305073', '105', 0, 0, 0, '三5-6');
 INSERT INTO `grade` VALUES (111, '19122169', '19年春', '08305075', '106', 0, 0, 0, '一3-4');
-INSERT INTO `grade` VALUES (112, '19122169', '19年秋', '08305138', '101', 93, 82, 86, '一1-2');
-INSERT INTO `grade` VALUES (113, '19122170', '19年秋', '08305138', '101', 0, 0, 0, '一1-2');
+INSERT INTO `grade` VALUES (112, '19122169', '19年秋', '08305138', '101', 92, 95, 94, '一1-2');
+INSERT INTO `grade` VALUES (113, '19122170', '19年秋', '08305138', '101', 67, 78, 74, '一1-2');
 INSERT INTO `grade` VALUES (114, '19122170', '19年秋', '08305139', '122', 0, 0, 0, '二3-4');
 INSERT INTO `grade` VALUES (115, '19122170', '19年秋', '08305072', '126', 90, 98, 95, '五9-10');
+INSERT INTO `grade` VALUES (128, '19122170', '19年冬', '08305140', '130', 0, 0, 0, '三1-2');
+INSERT INTO `grade` VALUES (131, '19122175', '19年秋', '02075052', '102', 98, 84, 88, '一1-2');
+INSERT INTO `grade` VALUES (132, '19122184', '19年秋', '02075052', '102', 96, 88, 90, '一1-2');
+INSERT INTO `grade` VALUES (133, '19122185', '19年秋', '02075052', '102', 97, 80, 85, '一1-2');
+INSERT INTO `grade` VALUES (135, '19122193', '19年秋', '02075052', '102', 92, 75, 80, '一1-2');
+INSERT INTO `grade` VALUES (136, '19122196', '19年秋', '02075052', '102', 95, 69, 77, '一1-2');
 
 -- ----------------------------
 -- Table structure for student

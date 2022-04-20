@@ -16,4 +16,6 @@ public class Classes {
     private String teacherId;
     private String teacherName;
     private String time;
+    private Integer limitNum;
+    private Integer currentNum;
 }
