@@ -21,8 +21,9 @@ public interface GradeMapper extends BaseMapper<Grade> {
     // 加入时间限制
     @Select("select count(distinct c.term,c.time) from classes as c join grade as g " +
             "on g.student_id = #{studentId} and c.term = g.term and c.course_id = g.course_id " +
-            "and c.teacher_id = g.teacher_id and c.term = #{term} and c.time = #{time}")
-    Integer findIsConflicting(String studentId, String term, String courseId, String teacherId, String time);
+            "and c.teacher_id = g.teacher_id and c.time = g.time " +
+            "and c.term = #{term} and c.time = #{time}")
+    Integer findIsConflicting(String studentId, String term, String time);
 
     // 发起delete请求时，后端无法接受对象参数，原因不明，该方法废弃
     // 出问题可能是由于前端封装时键值没有打双引号，后端SQL语句中字段名与数据库中不匹配，或是此处注解使用错误造成
@@ -59,4 +60,7 @@ public interface GradeMapper extends BaseMapper<Grade> {
 
     @Select("select c.credit,g.total_grade from grade as g join course as c on student_id = #{id} and g.course_id = c.id")
     List<CreditAndGrade> findCertainGradeSet(String id);
+
+    @Select("select * from grade where student_id = #{studentId} and term = #{term} and course_id = #{courseId}")
+    Integer findIsRepeat(String studentId, String term, String courseId);
 }

@@ -40,9 +40,13 @@ public class GradeController {
         if (res.intValue() != 0) {
             return Result.error("-2", "选课失败，你已选修过该课程");
         }
-        res = gradeMapper.findIsConflicting(grade.getStudentId(), grade.getTerm(), grade.getCourseId(), grade.getTeacherId(), grade.getTime());
+        res = gradeMapper.findIsRepeat(grade.getStudentId(), grade.getTerm(), grade.getCourseId());
         if (res.intValue() != 0) {
-            return Result.error("-3", "选课失败，你的时间冲突");
+            return Result.error("-3", "选课失败，同一学期不能重复选择同一课程");
+        }
+        res = gradeMapper.findIsConflicting(grade.getStudentId(), grade.getTerm(), grade.getTime());
+        if (res.intValue() != 0) {
+            return Result.error("-4", "选课失败，你的时间冲突");
         }
         return Result.success();
     }

@@ -11,7 +11,7 @@
  Target Server Version : 80027
  File Encoding         : 65001
 
- Date: 20/04/2022 14:26:36
+ Date: 20/04/2022 23:23:14
 */
 
 SET NAMES utf8mb4;
@@ -47,7 +47,7 @@ INSERT INTO `classes` VALUES ('2007', '19年秋', '08305072', '数字逻辑实�
 INSERT INTO `classes` VALUES ('2008', '19年秋', '08305072', '数字逻辑实验', '122', '哔哩哔哩弹幕网', '五9-10', 50, 0);
 INSERT INTO `classes` VALUES ('2009', '19年冬', '08305140', '离散数学', '130', '视角姬', '一1-2', 50, 0);
 INSERT INTO `classes` VALUES ('2010', '19年冬', '08305140', '离散数学', '130', '视角姬', '三1-2', 50, 1);
-INSERT INTO `classes` VALUES ('2011', '19年冬', '08305140', '离散数学', '101', '吴基长', '一1-2', 50, 0);
+INSERT INTO `classes` VALUES ('2011', '19年冬', '08305140', '离散数学', '101', '吴基长', '一1-2', 50, 1);
 INSERT INTO `classes` VALUES ('2012', '19年冬', '08305140', '离散数学', '101', '吴基长', '三1-2', 50, 0);
 INSERT INTO `classes` VALUES ('2013', '19年冬', '08305009', '数据结构', '151', '黑马程序员', '二7-8', 50, 1);
 INSERT INTO `classes` VALUES ('2014', '19年冬', '08305009', '数据结构', '151', '黑马程序员', '四7-8', 50, 0);
@@ -185,21 +185,22 @@ CREATE TABLE `grade`  (
 -- ----------------------------
 -- Records of grade
 -- ----------------------------
-INSERT INTO `grade` VALUES (106, '19122169', '19年秋', '08305139', '122', 89, 76, 80, '二3-4');
+INSERT INTO `grade` VALUES (106, '19122169', '19年秋', '08305139', '122', 89, 76, 81, '二3-4');
 INSERT INTO `grade` VALUES (107, '19122169', '19年秋', '08305072', '126', 93, 86, 89, '五9-10');
-INSERT INTO `grade` VALUES (109, '19122169', '19年冬', '08305009', '151', 0, 0, 0, '二7-8');
-INSERT INTO `grade` VALUES (110, '19122169', '19年春', '08305073', '105', 0, 0, 0, '三5-6');
-INSERT INTO `grade` VALUES (111, '19122169', '19年春', '08305075', '106', 0, 0, 0, '一3-4');
+INSERT INTO `grade` VALUES (109, '19122169', '19年冬', '08305009', '151', 90, 76, 80, '二7-8');
+INSERT INTO `grade` VALUES (110, '19122169', '19年春', '08305073', '105', 91, 82, 85, '三5-6');
+INSERT INTO `grade` VALUES (111, '19122169', '19年春', '08305075', '106', 81, 67, 71, '一3-4');
 INSERT INTO `grade` VALUES (112, '19122169', '19年秋', '08305138', '101', 92, 95, 94, '一1-2');
 INSERT INTO `grade` VALUES (113, '19122170', '19年秋', '08305138', '101', 67, 78, 74, '一1-2');
-INSERT INTO `grade` VALUES (114, '19122170', '19年秋', '08305139', '122', 0, 0, 0, '二3-4');
+INSERT INTO `grade` VALUES (114, '19122170', '19年秋', '08305139', '122', 78, 60, 67, '二3-4');
 INSERT INTO `grade` VALUES (115, '19122170', '19年秋', '08305072', '126', 90, 98, 95, '五9-10');
-INSERT INTO `grade` VALUES (128, '19122170', '19年冬', '08305140', '130', 0, 0, 0, '三1-2');
+INSERT INTO `grade` VALUES (128, '19122170', '19年冬', '08305140', '130', 80, 89, 85, '三1-2');
 INSERT INTO `grade` VALUES (131, '19122175', '19年秋', '02075052', '102', 98, 84, 88, '一1-2');
 INSERT INTO `grade` VALUES (132, '19122184', '19年秋', '02075052', '102', 96, 88, 90, '一1-2');
 INSERT INTO `grade` VALUES (133, '19122185', '19年秋', '02075052', '102', 97, 80, 85, '一1-2');
 INSERT INTO `grade` VALUES (135, '19122193', '19年秋', '02075052', '102', 92, 75, 80, '一1-2');
 INSERT INTO `grade` VALUES (136, '19122196', '19年秋', '02075052', '102', 95, 69, 77, '一1-2');
+INSERT INTO `grade` VALUES (137, '19122169', '19年冬', '08305140', '101', 91, 69, 76, '一1-2');
 
 -- ----------------------------
 -- Table structure for student
@@ -218,13 +219,13 @@ CREATE TABLE `student`  (
 -- ----------------------------
 -- Records of student
 -- ----------------------------
-INSERT INTO `student` VALUES ('19122169', '19122169', '卜晟原', '男', 1, 1.22);
-INSERT INTO `student` VALUES ('19122170', '19122170', '绵羊料理', '女', 1, 0.44);
+INSERT INTO `student` VALUES ('19122169', '19122169', '卜晟原', '男', 1, 3.16);
+INSERT INTO `student` VALUES ('19122170', '19122170', '绵羊料理', '女', 1, 2.81);
 INSERT INTO `student` VALUES ('19122171', '19122171', '小潮院长', '男', 4, 0);
 INSERT INTO `student` VALUES ('19122172', '19122172', '宝剑嫂', '女', 3, 0);
 INSERT INTO `student` VALUES ('19122173', '19122173', '力元君', '男', 3, 0);
 INSERT INTO `student` VALUES ('19122174', '19122174', '雨哥到处跑', '男', 4, 0);
-INSERT INTO `student` VALUES ('19122175', '19122175', '口袋迷ag', '男', 2, 0);
+INSERT INTO `student` VALUES ('19122175', '19122175', '口袋迷ag', '男', 2, 3.7);
 INSERT INTO `student` VALUES ('19122176', '19122176', '二喵的饭', '女', 1, 0);
 INSERT INTO `student` VALUES ('19122177', '19122177', '狂阿弥_', '男', 4, 0);
 INSERT INTO `student` VALUES ('19122178', '19122178', '酸梨大王', '女', 5, 0);
@@ -233,8 +234,8 @@ INSERT INTO `student` VALUES ('19122180', '19122180', '嘉然今天吃什么', '
 INSERT INTO `student` VALUES ('19122181', '19122181', '自来卷三木', '男', 5, 0);
 INSERT INTO `student` VALUES ('19122182', '19122182', '小片片说大片', '男', 4, 0);
 INSERT INTO `student` VALUES ('19122183', '19122183', '假美食po主', '女', 5, 0);
-INSERT INTO `student` VALUES ('19122184', '19122184', '吃花椒的喵酱', '女', 2, 0);
-INSERT INTO `student` VALUES ('19122185', '19122185', '-欣小萌-', '女', 2, 0);
+INSERT INTO `student` VALUES ('19122184', '19122184', '吃花椒的喵酱', '女', 2, 4);
+INSERT INTO `student` VALUES ('19122185', '19122185', '-欣小萌-', '女', 2, 3.7);
 INSERT INTO `student` VALUES ('19122186', '19122186', '杜海皇', '男', 4, 0);
 INSERT INTO `student` VALUES ('19122187', '19122187', '东尼ookii', '男', 3, 0);
 INSERT INTO `student` VALUES ('19122188', '19122188', '醋醋cucu', '女', 1, 0);
@@ -242,10 +243,10 @@ INSERT INTO `student` VALUES ('19122189', '19122189', '伢伢gagako', '女', 1, 
 INSERT INTO `student` VALUES ('19122190', '19122190', '老番茄', '男', 3, 0);
 INSERT INTO `student` VALUES ('19122191', '19122191', '小文哥吃吃吃', '男', 2, 0);
 INSERT INTO `student` VALUES ('19122192', '19122192', '上大王俊凯', '男', 5, 0);
-INSERT INTO `student` VALUES ('19122193', '19122193', '七海Nana7mi', '女', 2, 0);
+INSERT INTO `student` VALUES ('19122193', '19122193', '七海Nana7mi', '女', 2, 3);
 INSERT INTO `student` VALUES ('19122194', '19122194', '刘庸干净又卫生', '男', 4, 0);
 INSERT INTO `student` VALUES ('19122195', '19122195', '李令羽', '女', 5, 0);
-INSERT INTO `student` VALUES ('19122196', '19122196', '杨颜同学', '男', 2, 0);
+INSERT INTO `student` VALUES ('19122196', '19122196', '杨颜同学', '男', 2, 2.7);
 INSERT INTO `student` VALUES ('19122197', '19122197', '原神', '女', 5, 0);
 INSERT INTO `student` VALUES ('19122198', '19122198', '骚拳超人', '男', 3, 0);
 INSERT INTO `student` VALUES ('19122199', '19122199', '动力节点', '男', 1, 0);
