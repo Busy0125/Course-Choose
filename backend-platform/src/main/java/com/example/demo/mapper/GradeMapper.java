@@ -61,6 +61,6 @@ public interface GradeMapper extends BaseMapper<Grade> {
     @Select("select c.credit,g.total_grade from grade as g join course as c on student_id = #{id} and g.course_id = c.id")
     List<CreditAndGrade> findCertainGradeSet(String id);
 
-    @Select("select * from grade where student_id = #{studentId} and term = #{term} and course_id = #{courseId}")
+    @Select("select count(*) from grade where student_id = #{studentId} and term = #{term} and course_id = #{courseId}")
     Integer findIsRepeat(String studentId, String term, String courseId);
 }
